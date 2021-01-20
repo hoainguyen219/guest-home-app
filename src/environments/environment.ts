@@ -6,7 +6,7 @@ export const environment = {
   production: false,
   apiKey: '',
   firebaseConfig: {
-    apiKey: "AIzaSyDU5RNX3XywQnSD8e-818OD17Dq4WUyVl4",
+    apiKey: "",
     authDomain: "chat-angular-a9217.firebaseapp.com",
     databaseURL: "https://chat-angular-a9217-default-rtdb.firebaseio.com",
     projectId: "chat-angular-a9217",
