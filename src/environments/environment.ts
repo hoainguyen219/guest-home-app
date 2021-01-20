@@ -4,7 +4,7 @@
 
 export const environment = {
   production: false,
-  apiKey: 'AIzaSyDHgrLXpCVucfV6ZblSVBGnStkbaz8-Esg',
+  apiKey: '',
   firebaseConfig: {
     apiKey: "AIzaSyDU5RNX3XywQnSD8e-818OD17Dq4WUyVl4",
     authDomain: "chat-angular-a9217.firebaseapp.com",
