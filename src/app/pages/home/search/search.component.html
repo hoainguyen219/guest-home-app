@@ -1,0 +1,156 @@
+<div class="content-area">
+  <div class="container-fluid">
+    <div class="row">
+      <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12">
+        <div class="single-page-sidebar">
+          <div class="widget widget-contact box-bg">
+            <h3 class="widget-title" style="font-weight: bold;">Lọc theo giá tiền</h3>
+            <div class="form-check">
+              <input class="form-check-input scale-input" type="radio" [checked]="priceType === 'low'"
+                (change)="filterHostelsByPrice($event.target.value)" name="exampleRadios" id="lowToHigh" value="low">
+              <label class="form-check-label" style="font-size: 1.6rem; margin-left: 1rem; margin-top: 6px;" for="lowToHigh">
+                Từ thấp tới cao
+              </label>
+            </div>
+            <div class="form-check">
+              <input class="form-check-input scale-input" type="radio" [checked]="priceType === 'high'"
+                (change)="filterHostelsByPrice($event.target.value)" name="exampleRadios" id="highToLow" value="high">
+              <label class="form-check-label" style="font-size: 1.6rem; margin-left: 1rem; margin-top: 6px;" for="highToLow">
+                Từ cao tới thấp
+              </label>
+            </div>
+            <hr>
+            <h3 class="widget-title" style="font-weight: bold;">Tiện ích</h3>
+            <div class="form-check">
+              <input class="form-check-input scale-input" [checked]="utilies.includes('airCondition')"
+                (change)="filterHostelsByUtilies($event.target.value)" type="checkbox" value="airCondition"
+                id="air_condition">
+              <label class="form-check-label" style="font-size: 1.6rem; margin-left: 1rem; margin-top: 6px;" for="air_condition">
+                Điều hòa
+              </label>
+            </div>
+            <div class="form-check">
+              <input class="form-check-input scale-input" [checked]="utilies.includes('electricWaterHeater')"
+                (change)="filterHostelsByUtilies($event.target.value)" type="checkbox" value="electricWaterHeater"
+                id="electric_water_heater">
+              <label class="form-check-label" style="font-size: 1.6rem; margin-left: 1rem; margin-top: 6px;" for="electric_water_heater">
+                Nóng lạnh
+              </label>
+            </div>
+            <div class="form-check">
+              <input class="form-check-input scale-input" [checked]="utilies.includes('garage')"
+                (change)="filterHostelsByUtilies($event.target.value)" type="checkbox" value="garage" id="garage">
+              <label class="form-check-label"style="font-size: 1.6rem; margin-left: 1rem; margin-top: 6px;" for="garage">
+                Chỗ để xe
+              </label>
+            </div>
+            <div class="form-check">
+              <input class="form-check-input scale-input" [checked]="utilies.includes('wc')"
+                (change)="filterHostelsByUtilies($event.target.value)" type="checkbox" value="wc" id="wc">
+              <label class="form-check-label" style="font-size: 1.6rem; margin-left: 1rem; margin-top: 6px;" for="wc">
+                Khép kín
+              </label>
+            </div>
+            <hr>
+          </div>
+        </div>
+      </div>
+      <div class="col-lg-8 col-md-8 col-sm-12 col-xs-12">
+        <div class="hostel-thumbnail-list-block" *ngFor="let hostel of displayHostels">
+          <div class="row align-items-stretch">
+            <!-- hostel-thumbnail-list-block -->
+            <div class="col-lg-3 col-md-12 col-sm-12 col-xs-12 nopadding">
+              <div class="hostel-list-img">
+                <a href="#"><img src="./assets/images/hostel-1.jpg" alt="accommodation booking websites design"></a>
+                <!-- <div class="hostel-wishlist"><a href="#" class="wishlist-heart"></a></div> -->
+              </div>
+            </div>
+            <div class="col-lg-9 col-md-12 col-sm-12 col-xs-12 nopadding d-flex">
+              <div class="hostel-content">
+                <div class="hostel-head">
+                  <h3 class="hostel-title"><a (click)="toDetailHostel(hostel.postId)" class="title">{{hostel.title}}</a>
+                  </h3>
+                  <p class="hostel-address"> {{ hostel.address }}</p>
+                </div>
+                <div class="hostel-meta">
+                  <span class="hostel-price"><span class="price-from">Giá tiền: </span> <span class="price">
+                      {{ hostel.price | currency: 'VND': ''}} VND</span></span>
+                  <span class="hostel-area">Diện tích: <span class="price"> {{ hostel.area }}m2 </span></span>
+                  <span class="hostel-rating" *ngIf="hostel?.totalReview > 0">
+                    Đánh giá: <span class=""> {{ hostel?.totalScore/hostel?.totalReview || 0 }}/5 </span> - <span class="reviews"> {{
+                      hostel.totalReview || 0 }} Đánh giá</span>
+                  </span>
+                  <span class="hostel-rating" *ngIf="hostel?.totalReview === 0">
+                    Chưa có đánh giá.
+                  </span>
+                </div>
+                <div class="btn-group justify-content-end mt-auto" *ngIf="currentUser$ | async as user">
+                  <a type="button" *ngIf="user?.user_id && user?.user_id !== hostel.postBy"
+                    class="btn btn-sm" (click)="contactUser(hostel)">Liên hệ</a>
+                  <a type="button" *ngIf="user?.user_id && user?.user_id !== hostel.postBy"
+                    class="btn btn-sm" (click)="openBookingForm(hostel)">Đặt lịch</a>
+                </div>
+              </div>
+            </div>
+          </div>
+          <!-- /.hostel-thumbnail-list-block -->
+        </div>
+      </div>
+    </div>
+    <div class="row" style="text-align: center;" *ngIf="hostels?.length > 10">
+      <div class="col-lg-3">
+
+      </div>
+      <div class="col-lg-8">
+        <mat-paginator
+          [pageSize]="pageSize"
+          [length]="hostels.length"
+          (page)="changePages($event)"
+        ></mat-paginator>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+<!-- Modal -->
+<div class="modal fade" id="modalBooking" tabindex="-1" role="dialog" aria-labelledby="modalBookingTitle"
+  aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-header d-flex" style="align-items: center;">
+        <h3 class="modal-title" id="modalBookingTitle">Thông tin đặt phòng</h3>
+        <button type="button" class="close" style="margin-left: auto;" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <h4 style="color: red;">{{ selectedHostel?.title }}</h4>
+        Địa chỉ: {{ selectedHostel?.address }}
+        <hr>
+        <mat-form-field appearance="fill">
+          <mat-label>Chọn ngày đặt phòng</mat-label>
+          <mat-date-range-input [formGroup]="range" [rangePicker]="picker" [dateFilter]="filterDateList">
+            <input matStartDate formControlName="start" placeholder="Từ ngày" disabled>
+            <input matEndDate formControlName="end" placeholder="Đến ngày" (dateChange)="changeToDate($event.value)" disabled>
+          </mat-date-range-input>
+          <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+          <mat-date-range-picker #picker disabled='false'></mat-date-range-picker>
+          <mat-error
+            *ngIf="range?.invalid && range?.controls?.start?.touched && range?.controls?.start?.errors?.required">Vui
+            lòng chọn ngày bắt đầu</mat-error>
+          <mat-error *ngIf="range?.invalid && range?.controls?.end?.touched && range?.controls?.end?.errors?.required">Vui
+            lòng chọn ngày kết thúc</mat-error>
+        </mat-form-field>
+        <p> Tổng tiền tạm tính: {{ (dateSearching?.dateDiff * selectedHostel?.price ) | currency: 'VND': ''}} VND</p>
+
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Hủy</button>
+        <button type="button" class="btn btn-primary" (click)="booking(selectedHostel)">Xác
+          nhận</button>
+      </div>
+    </div>
+  </div>
+</div>

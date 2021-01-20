@@ -1,0 +1,157 @@
+<!-- /.header wide -->
+<div class="single-page-header">
+  <!-- single page header -->
+  <div class="container">
+    <div class="row">
+      <div class="col-lg-9 col-md-9 col-sm-9 col-xs-12">
+        <h1 class="single-page-title"> {{ hostelDetail?.title }}</h1>
+        <p> {{ hostelDetail?.address }}</p>
+      </div>
+      <div class="col-lg-3 col-md-3 col-sm-3 col-xs-12">
+        <!-- <div class="hostel-wishlist"><a href="#" class="wishlist-heart"></a></div> -->
+        <div class="hostel-wishlist">
+          <span class="hostel-rate"> {{ hostelDetail?.price | currency: 'VND': ''}} đồng/ngày</span> <br>
+          <ng-container *ngIf="currentUser?.user_id && currentUser?.user_id !== hostelDetail?.postBy">
+            <button class="btn btn-default w-100" (click)="openBookingForm(hostelDetail)" style="margin: 5px 0"> Đặt
+              ngay </button> <br>
+            <button class="btn btn-default w-100" (click)="contactUser(hostelDetail)"> Liên hệ </button>
+          </ng-container>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- /.single page header -->
+<div class="content">
+  <!-- content -->
+  <div class="content-area">
+    <div class="container">
+      <div class="row">
+        <div class="col-lg-8 col-md-8 col-sm-12 col-xs-12">
+          <div class="single-page-content">
+            <div id="overview" class="well-box">
+              <h2 class="small-header-title">Chi tiết phòng</h2>
+              <h3>Mô tả phòng</h3>
+              <p> {{ hostelDetail?.description }}</p>
+              <ul class="listnone check-circle">
+                <li>Diện tích: {{ hostelDetail?.area }}m2</li>
+                <li>Số phòng ngủ: {{ hostelDetail?.bedroom }} phòng</li>
+                <li>Số phòng tắm: {{ hostelDetail?.bathroom}} phòng</li>
+                <li>Giá: {{hostelDetail?.price | currency:'VND': '' }}đ</li>
+              </ul>
+            </div>
+            <div id="amenities" class="well-box">
+              <h2 class="small-header-title">Tiện ích</h2>
+              <p>Một tính năng hoặc thiết bị hữu ích của nhà trọ.</p>
+              <div class="row">
+                <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
+                  <ul class="listnone check-circle">
+                    <li *ngIf="hostelDetail?.air_condition">Điều hòa</li>
+                    <li *ngIf="hostelDetail?.wc">Khép kín</li>
+                    <li *ngIf="hostelDetail?.electric_water_heater">Nóng lạnh</li>
+                    <li *ngIf="hostelDetail?.garage">Chỗ để xe</li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+            <div id="gallery" class="well-box">
+              <h2 class="small-header-title">Hình ảnh</h2>
+              <div class="gallery-block">
+                <a class="popup-link" [href]="imagesLink" title="Hostel Website Templates"
+                  *ngFor="let imagesLink of hostelDetail?.urlImages">
+                  <img [src]="imagesLink" alt="Title">
+                </a>
+              </div>
+            </div>
+            <div id="reviews" class="well-box">
+              <h2 class="small-header-title">Đánh giá ({{hostelDetail?.totalReview }})</h2>
+              <p>Your trust is our top concern, so businesses can't pay to alter or remove their
+                reviews.
+              </p>
+              <div class="review-block">
+                <div class="row justify-content-center">
+                  <div class="col-lg-3 col-md-3 col-sm-3 col-xs-12">
+                    <div class="review-sidebar">
+                      <div class="review-box" *ngIf="hostelDetail?.avgScore else noAvgScore">
+                        <div class="review-total"> {{hostelDetail?.avgScore }}/5 </div>
+                        <div class="review-text"> Đánh giá phòng </div>
+                        <!-- <span class="rate"><i class="fa fa-star"></i> <i class="fa fa-star"></i>
+                            <i class="fa fa-star"></i> <i class="fa  fa-star-o"></i> <i class="fa  fa-star-o"></i>
+                          </span> -->
+                      </div>
+                      <ng-template #noAvgScore>
+                        <div class="review-box">
+                          <div class="review-text"> Hiện tại chưa có đánh giá phòng </div>
+                        </div>
+                      </ng-template>
+                    </div>
+                  </div>
+                  <div class="col-lg-3 col-md-3 col-sm-3 col-xs-12">
+                    <div class="review-sidebar">
+                      <div class="review-box" *ngIf="hostelDetail?.avgScore1 else noAvgScore1">
+                        <div class="review-total"> {{hostelDetail?.avgScore1 }}/5 </div>
+                        <div class="review-text"> Đánh giá quản lý </div>
+
+                      </div>
+                      <ng-template #noAvgScore1>
+                        <div class="review-box">
+                          <!-- <div class="review-total" > {{hostelDetail?.avgScore }}/5 </div> -->
+                          <div class="review-text"> Hiện tại chưa có đánh giá quản lý </div>
+                        </div>
+                      </ng-template>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
+          
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<!-- Modal -->
+<div class="modal fade" id="modalBooking" tabindex="-1" role="dialog" aria-labelledby="modalBookingTitle"
+  aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-header d-flex" style="align-items: center;">
+        <h3 class="modal-title" id="modalBookingTitle">Thông tin đặt phòng</h3>
+        <button type="button" class="close" style="margin-left: auto;" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <h4 style="color: red;">{{ selectedHostel?.title }}</h4>
+        Địa chỉ: {{ selectedHostel?.address }}
+        <hr>
+        <mat-form-field appearance="fill">
+          <mat-label>Chọn ngày đặt phòng</mat-label>
+          <mat-date-range-input [formGroup]="range" [rangePicker]="picker" [dateFilter]="filterDateList">
+            <input matStartDate formControlName="start" placeholder="Từ ngày" disabled>
+            <input matEndDate formControlName="end" placeholder="Đến ngày" (dateChange)="changeToDate($event.value)" disabled>
+          </mat-date-range-input>
+          <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+          <mat-date-range-picker #picker disabled='false'></mat-date-range-picker>
+          <mat-error
+            *ngIf="range?.invalid && range?.controls?.start?.touched && range?.controls?.start?.errors?.required">Vui
+            lòng chọn ngày bắt đầu</mat-error>
+          <mat-error *ngIf="range?.invalid && range?.controls?.end?.touched && range?.controls?.end?.errors?.required">Vui
+            lòng chọn ngày kết thúc</mat-error>
+        </mat-form-field>
+        <p> Tổng tiền tạm tính: {{ (dateSearching?.dateDiff * selectedHostel?.price ) | currency: 'VND': ''}} VND</p>
+
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Hủy</button>
+        <button type="button" class="btn btn-primary" (click)="booking(this.selectedHostel)">Xác
+          nhận</button>
+      </div>
+    </div>
+  </div>
+</div>

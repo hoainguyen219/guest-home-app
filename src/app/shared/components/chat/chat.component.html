@@ -1,0 +1,66 @@
+<div class="chatbox-body" *ngIf="uid">
+  <link href='https://fonts.googleapis.com/css?family=Open+Sans:400,600,700' rel='stylesheet' type='text/css'>
+  <div id="chatbox" [ngClass]="{'show-chat-box': isShowMessage}">
+    <div id="friendslist">
+      <div id="topmenu" (click)="isShowMessage = !isShowMessage">
+        <h5 class="topmenu-message">Message</h5>
+        <button class="btn topmenu-btn" *ngIf="isShowMessage">
+          <i class="fa fa-chevron-down"></i>
+        </button>
+        <button class="btn topmenu-btn" *ngIf="!isShowMessage" >
+          <i class="fa fa-chevron-up"></i>
+        </button>
+      </div>
+
+      <div id="friends">
+        <div class="friend" (click)="toMessgeBox(hm)" *ngFor="let hm of historyMessages">
+          <img src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/245657/1_copy.jpg" />
+          <p>
+            <strong> {{ hm?.full_name }} </strong>
+            <span> {{ hm?.email }}</span> <br>
+            <span *ngIf="hm?.count > 0"> Có {{ hm.count }} tin nhắn chưa đọc </span>
+          </p>
+          <div class="status available"></div>
+        </div>
+      </div>
+
+    </div>
+
+    <div id="chatview" class="p1">
+      <div id="profile">
+        <div id="close" (click)="backToMessageList()">
+          <div class="cy"></div>
+          <div class="cx"></div>
+        </div>
+        <p>{{ chatUser?.full_name }}</p>
+        <span> {{ chatUser?.email }} </span>
+      </div>
+      <div id="chat-messages" #chatMessage>
+        <label>Message</label>
+        <ng-container *ngFor="let message of messages">
+          <div class="message" *ngIf="message.to === uid">
+            <img src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/245657/1_copy.jpg" />
+            <div class="bubble">
+              {{ message.message }}
+              <div class="corner"></div>
+              <span>{{ message.date | date: 'dd/MM/yyyy'}}</span>
+            </div>
+          </div>
+          <div class="message right" *ngIf="message.from === uid">
+            <img src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/245657/2_copy.jpg" />
+            <div class="bubble">
+              {{ message.message }}
+              <div class="corner"></div>
+              <span>{{ message.date | date: 'dd/MM/yyyy'}}</span>
+            </div>
+          </div>
+        </ng-container>
+      </div>
+      <form id="sendmessage" [formGroup]="messageForm" class="form-inline">
+        <input type="text" formControlName="message" class="form-control" value="Send message..." />
+        <button class="" (click)="sendMessage()"> <i class="fa fa-paper-plane"></i></button>
+      </form>
+    </div>
+  </div>
+
+</div>

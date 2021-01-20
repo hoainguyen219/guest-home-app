@@ -1,0 +1,64 @@
+<div class="header-wide" *ngIf="user$ | async as user">
+  <!-- header wide -->
+  <div class="header-top">
+    <div class="container-fluid">
+      <div class="row">
+        <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12 hidden-xs">
+          <!-- <p class="welcome-text">Welcome to Hostel Booking Responsive Website Templates</p> -->
+        </div>
+        <div class="col-lg-8 col-md-6 col-sm-6 col-xs-12">
+          <div class="header-right">
+            <div class="user-login">
+              <ul *ngIf="user?.user_id; else nologin">
+                <li>{{ user?.full_name }}</li>
+                <li><a href=""><i class="fa fa-user"></i></a></li>
+                <li><a (click)="logout()" href="javascript:void(0)">Đăng xuất</a></li>
+              </ul>
+              <ng-template #nologin>
+                <ul>
+                  <li><a (click)="toLogin()" href="javascript:void(0)">Đăng nhập</a></li>
+                  <li><a (click)="toRegister()" href="javascript:void(0)">Đăng ký</a></li>
+                </ul>
+              </ng-template>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="header">
+    <!-- header -->
+    <div class="container-fluid">
+      <div class="row">
+        <div class="col-lg-2 col-md-2 col-sm-12 col-xs-12">
+          <div class="logo header-block">
+            <a (click)="search()" href="javascript:void(0)"> <img src="./assets/images/logo.png" alt=""></a>
+          </div>
+        </div>
+        <div class="col-lg-8 col-md-9 col-sm-12 col-xs-12">
+          <div class="header-block">
+            <div id="navigation">
+              <!-- navigation -->
+              <ul>
+                <li (click)="search()"><a href="#"> Trang chủ</a>
+                </li>
+                <li (click)="searchByMap()"><a href="#"> Tìm kiếm bản đồ</a>
+                </li>
+                <li> <a href="#" *ngIf="user?.user_id" [routerLink]="['hostel/posted']" routerLinkActive="active"> Bài đã đăng </a> </li>
+                <li> <a href="#" *ngIf="user?.user_id" [routerLink]="['/schedule']" routerLinkActive="active"> Lịch sử thuê </a> </li>
+                <li> <a href="#" *ngIf="user?.user_id && user?.role === 2" [routerLink]="['/dashboard']" routerLinkActive="active"> Quản lý bài đăng </a> </li>
+              </ul>
+            </div>
+            <!-- /.navigation -->
+          </div>
+        </div>
+        <div class="col-lg-2 col-md-2 col-sm-12 col-xs-12">
+          <div class="header-block header-action hidden-xs hidden-sm">
+            <a (click)="postHostel()" href="javascript:void(0)" class="btn btn-default">Đăng tin phòng</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- header -->
+</div>

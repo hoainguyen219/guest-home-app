@@ -1,0 +1,110 @@
+<div class="content" *ngIf="searchType$ | async as type">
+  <!-- content -->
+  <!-- <div class="banner">
+    <img src="../../../assets/images/banner.png" alt="">
+  </div> -->
+  <div class="hero-section">
+    <div id="color-overlay"></div>
+    <div class="container-fluid">
+      <div class="row d-flex" style="justify-content: center;">
+        <div class="col-lg-10 col-md-10 col-sm-10 col-xs-10">
+          <div class="search-block">
+            <div class="search-head">
+              <!-- <h1 class="display-1">Tìm kiếm/ đặt phòng khắp mọi nơi</h1>
+              <p class="hidden-xs"> 1000 phòng đặt, 54 tỉnh trên trong cả nước.</p> -->
+            </div>
+            <div class="search-box">
+              <div class="search-form">
+                <form [formGroup]="searchForm" class="row">
+                  <ng-container *ngIf="type === 1">
+                    <div class="col-md-3">
+                      <label for="from" class="control-label sr-only">Tỉnh/Thành phố</label>
+                      <select id="city" name="selectbasic" (change)="searchDistrictByCity($event)"
+                        formControlName="city" class="form-control">
+                        <option value="" selected>Tỉnh/Thành phố</option>
+                        <ng-container *ngIf="city$ | async as citys">
+                          <option *ngFor="let city of citys" [ngValue]="city">
+                            {{ city.name }}
+                          </option>
+                        </ng-container>
+                      </select>
+                    </div>
+                    <div class="col-md-2">
+                      <label for="from" class="control-label sr-only">Quận/ Huyện</label>
+                      <select id="district" name="selectbasic" formControlName="district" class="form-control">
+                        <option value="" selected>Quận/ Huyện</option>
+                        <ng-container *ngIf="district$ | async as districts">
+                          <option *ngFor="let district of districts" [ngValue]="district">
+                            {{ district.name }}
+                          </option>
+                        </ng-container>
+                      </select>
+                    </div>
+                  </ng-container>
+                  <ng-container *ngIf="type === 2">
+                    <div class="col-md-3">
+                      <input type="text" appNoneAutocomplete ngx-google-places-autocomplete [options]="options"
+                        formControlName="address" class="form-control" id="dia-chi" name="address" placeholder="Địa chỉ"
+                        autocomplete="new-address" />
+                    </div>
+                    <div class="col-md-2">
+                      <select class="form-control" placeholder="Bán kính" formControlName="distance" >
+                        <option value="" selected>Bán kính</option>
+                        <option value="0.5"> 500m </option>
+                        <option value="1">1000m</option>
+                        <option value="1.5">1500m</option>
+                      </select>
+                    </div>
+                  </ng-container>
+                  <div class="col-md-2">
+                    <label for="price" class="control-label sr-only">Giá</label>
+                    <select name="" id="" placeholder="Giá" formControlName="price" class="form-control">
+                      <option value="" selected>Giá</option>
+                      <option value="0-300000">Dưới 300.000đ</option>
+                      <option value="300000-500000">300.000đ - 500.000đ</option>
+                      <option value="500000-700000">500.000đ - 700.000đ</option>
+                      <option value="700000-1000000">700.000đ - 1.000.000đ</option>
+                      <option value="100000-999999999999">Trên 1.000.000đ</option>
+                    </select>
+                  </div>
+                  <div class="col-md-2">
+                    <label for="from" class="control-label sr-only">Diện tích(m2)</label>
+                    <select id="area" name="selectbasic" formControlName="area" class="form-control">
+                      <option value="" selected>Diện tích(m2)</option>
+                      <option value="0-20">Dưới 20m2</option>
+                      <option value="20-30">20m2 - 30m2</option>
+                      <option value="30-50">30m2 - 50m2</option>
+                      <option value="50-70">50m2 - 70m2</option>
+                      <option value="70-100">70m2 - 100m2</option>
+                      <option value="100-9999999999">Trên 100m2</option>
+                    </select>
+                  </div>
+                  <div class="col-md-2">
+                    <label for="from" class="control-label sr-only">Date</label>
+                    <input type="text" id="datepicker" name="from" class="form-control selectpicker"
+                      placeholder="Check In">
+                  </div>
+                  <div class="col-md-1" >
+                    <button *ngIf="type === 2" (click)="searchHostelByMap()" class="btn btn-default btn-block btn-lg"
+                      type="submit">Tìm</button>
+                    <button *ngIf="type === 1" (click)="search()" class="btn btn-default btn-block btn-lg"
+                      type="submit">Tìm</button>
+                  </div>
+                </form>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- /.search bg-->
+  <div [ngSwitch]="type" #hostelResponse >
+    <app-search *ngSwitchCase="1" [hostels]="hostel$ | async"></app-search>
+    <app-search-by-map *ngSwitchCase="2" [hostels]="hostel$ | async" [lat]="searchLat" [lng]="searchLng"
+      [radius]="radius" (onMapClick)="searchHostelByMap($event)">
+    </app-search-by-map>
+    <app-search *ngSwitchDefault [hostels]="hostel$ | async"></app-search>
+  </div>
+</div>

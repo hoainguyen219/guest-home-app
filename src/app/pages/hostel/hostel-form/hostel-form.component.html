@@ -1,0 +1,153 @@
+<div class="dashboard-wrapper">
+  <div class="container">
+    <div class="row justify-content-center">
+      <div class="col-lg-9 col-md-9 col-sm-12 col-xs-12">
+        <div class="dashboard-content">
+          <div class="dashboard-box">
+            <div class="dashboard-head">
+              <h3 class="dashboard-head-title">Đăng tin cho thuê</h3>
+            </div>
+            <div class="dashboard-data">
+              <div class="profile-edit-form">
+                <h4>Thông tin cơ bản</h4>
+                <form [formGroup]="hostelForm" enctype="multipart/form-data">
+                  <div class="row">
+                    <div class="col-lg-6">
+                      <div class="form-group">
+                        <label for="tieu-de" class="sr-only">Tiêu đề</label>
+                        <input type="text" formControlName="title" class="form-control" id="tieu-de" name="tieu-de"
+                          placeholder="Tiêu đề(*)">
+                        <div
+                          *ngIf="formControls?.title?.touched && formControls?.title?.invalid && formControls?.title?.errors?.required"
+                          class="alert alert-danger mt-1" role="alert">Vui lòng nhập tiêu đề.</div>
+                      </div>
+                    </div>
+                    <div class="col-lg-3">
+                      <div class="form-group">
+                        <label for="price" class="sr-only">Giá</label>
+                        <input type="number" appOnlyNumber formControlName="price" class="form-control" id="price" name="price"
+                          placeholder="Giá(*)">
+                        <div
+                          *ngIf="formControls?.price?.touched && formControls?.price?.invalid && formControls?.price?.errors?.required"
+                          class="alert alert-danger mt-1" role="alert">Vui lòng nhập giá.</div>
+                      </div>
+                    </div>
+                    <div class="col-lg-3">
+                      <div class="form-group">
+                        <label for="dien-tich" class="sr-only">Diện tích</label>
+                        <input type="number" appOnlyNumber formControlName="area" class="form-control" id="dien-tich"
+                          name="dien-tich" placeholder="Diện tích(*)">
+                        <div
+                          *ngIf="formControls?.area?.touched && formControls?.area?.invalid && formControls?.area?.errors?.required"
+                          class="alert alert-danger mt-1" role="alert">Vui lòng nhập diện tích.</div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="col-lg-6">
+                      <div class="form-group">
+                        <label for="dia-chi" class="sr-only">Địa chỉ</label>
+                        <input autocomplete="false" ngx-google-places-autocomplete [options]="options" formControlName="address" class="form-control" id="dia-chi" name="address"
+                        placeholder="Địa chỉ(*)" (onAddressChange)="addressChange($event)"/>
+                        <div
+                          *ngIf="formControls?.address?.touched && formControls?.address?.invalid && formControls?.address?.errors?.required"
+                          class="alert alert-danger mt-1" role="alert">Vui lòng nhập địa chỉ.</div>
+                      </div>
+                    </div>
+                    <div class="col-lg-3">
+                      <div class="form-group">
+                        <label for="phong-ngu" class="sr-only">Số phòng ngủ</label>
+                        <input type="text" formControlName="bedroom" class="form-control" id="phong-ngu" name="phong-ngu"
+                          placeholder="Số phòng ngủ">
+                      </div>
+                    </div>
+                    <div class="col-lg-3">
+                      <div class="form-group">
+                        <label for="phone" class="sr-only">Số phòng tắm</label>
+                        <input type="text" class="form-control" formControlName="bathroom" name="phone" placeholder="Số phòng tắm">
+                      </div>
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="col-lg-12">
+                      <hr>
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="col-lg-12">
+                      <h4>Tiện ích</h4>
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div formGroupName="utilities">
+                      <div class="col-lg-3">
+                        <div class="form-check form-check-inline d-flex">
+                          <input type="checkbox" class="form-check-input" (change)="onCheckUtilities($event)"
+                            value="air_condition" id="dieu-hoa" [checked]="formControls?.utilities?.value?.air_condition" name="dieu-hoa" placeholder="Facebook">
+                          <label for="dieu-hoa" class="form-check-label">Có điều hòa</label>
+                        </div>
+                      </div>
+                      <div class="col-lg-3">
+                        <div class="form-check form-check-inline d-flex">
+                          <input type="checkbox" class="form-check-input" (change)="onCheckUtilities($event)"
+                            value="wc" id="khep-kin" name="khep-kin" [checked]="formControls?.utilities?.value?.wc" placeholder="Twitter">
+                          <label for="khep-kin" class="form-check-label">Khép kín</label>
+                        </div>
+                      </div>
+                      <div class="col-lg-3">
+                        <div class="form-check form-check-inline d-flex">
+                          <input type="checkbox" class="form-check-input" (change)="onCheckUtilities($event)"
+                            value="electric_water_heater" id="nong-lanh" [checked]="formControls?.utilities?.value?.electric_water_heater" name="nong-lanh" placeholder="Google Plus">
+                          <label for="nong-lanh" class="form-check-label">Có nóng lạnh</label>
+                        </div>
+                      </div>
+                      <div class="col-lg-3">
+                        <div class="form-check form-check-inline d-flex">
+                          <input type="checkbox" class="form-check-input" (change)="onCheckUtilities($event)"
+                            value="garage" id="cho-de-xe" name="cho-de-xe" [checked]="formControls?.utilities?.value?.garage" placeholder="Instagram">
+                          <label for="cho-de-xe" class="form-check-label">Có chỗ để xe</label>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="col-lg-12">
+                      <hr>
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="col-lg-6">
+                      <h4>Mô tả chi tiết</h4>
+                      <div class="form-group">
+                        <textarea class="form-control" style="resize: none;" rows="5" formControlName="description"></textarea>
+                      </div>
+                    </div>
+                    <div class="col-lg-6">
+                      <h4>Hình ảnh (chọn 1 hoặc nhiều hình ảnh) </h4>
+                      <input type="file" #imagesView (change)="selectImageUrl($event)" multiple="multiple">
+                      <img (click)="deleteImgUrl(i)" class="hostel-image mr-2"
+                        *ngFor="let url of imagesUrls; let i = index" [src]="url" alt="">
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="col-lg-12">
+                      <hr>
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="col-lg-12 text-center">
+                      <button class="btn btn-default" *ngIf="!isPost" (click)="editHostel()" type="button">Sửa thông
+                        tin</button>
+                      <button class="btn btn-default" *ngIf="isPost" (click)="postHostel()" type="button">Đăng
+                        ngay</button>
+                    </div>
+                  </div>
+                </form>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

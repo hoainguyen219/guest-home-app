@@ -1,0 +1,99 @@
+<div class="content">
+  <!-- content -->
+  <div class="content-area">
+    <div class="container">
+      <div class="row" style="display:flex; justify-content: center;">
+        <div class="col-lg-offset-1 col-lg-6 col-md-12 col-sm-12 col-xs-12">
+          <div class="well-box">
+            <div class="row">
+              <div class="col-lg-12">
+                <div class="singup-box">
+                  <div class="singup-header">
+                    <h3>Đăng ký tài khoản</h3>
+                    <hr>
+                  </div>
+                  <div class="singup-form">
+                    <form [formGroup]="formDangKy">
+                      <div class="form-group">
+                        <label for="fullName">Họ và tên<span class="required">*</span> </label>
+                        <input type="text" formControlName="full_name" class="form-control" id="account"
+                          name="accountx " placeholder="Họ và tên(*)">
+                        <div
+                          *ngIf="formControls?.full_name?.touched && formControls?.full_name?.invalid && formControls?.full_name?.errors?.required"
+                          class="alert alert-danger mt-1" role="alert">Vui lòng nhập tên đầy đủ.</div>
+                      </div>
+                      <div class="form-group">
+                        <label for="account">Tên tài khoản<span class="required">*</span> </label>
+                        <input type="text" formControlName="account" class="form-control" id="account" name="accountx "
+                          placeholder="Tên tài khoản(*)">
+                        <div
+                          *ngIf="formControls?.account?.touched && formControls?.account?.invalid && formControls?.account?.errors?.required"
+                          class="alert alert-danger mt-1" role="alert">Vui lòng nhập Tên tài khoản.</div>
+                        <div
+                          *ngIf="( formControls?.account?.touched || formControls?.account?.dirty) && formControls?.account?.invalid && formControls?.account?.errors?.minlength"
+                          class="alert alert-danger mt-1" role="alert">Vui lòng nhập Tên tài khoản trên 6 ký tự.</div>
+                        <div
+                          *ngIf="( formControls?.account?.touched || formControls?.account?.dirty) && formControls?.account?.invalid && formControls?.account?.errors?.maxlength"
+                          class="alert alert-danger mt-1" role="alert">Vui lòng nhập Tên tài khoản dưới 12 ký tự.</div>
+                      </div>
+                      <div class="form-group">
+                        <label for="lname">Mật khẩu <span class="required">*</span></label>
+                        <input type="password" formControlName="password" class="form-control" id="password"
+                          name="password" placeholder="Mật khẩu(*)">
+                        <div
+                          *ngIf="formControls?.password?.touched && formControls?.password?.invalid && formControls?.password?.errors?.required"
+                          class="alert alert-danger mt-1" role="alert">Vui lòng nhập Mật khẩu.</div>
+                        <div
+                          *ngIf="(formControls?.password?.touched || formControls?.password?.dirty) && formControls?.password?.invalid && formControls?.password?.errors?.minlength"
+                          class="alert alert-danger mt-1" role="alert">Vui lòng nhập Mật khẩu.</div>
+                        <div
+                          *ngIf="(formControls?.password?.touched || formControls?.password?.dirty) && formControls?.password?.invalid && formControls?.password?.errors?.maxlength"
+                          class="alert alert-danger mt-1" role="alert">Vui lòng nhập Mật khẩu.</div>
+                      </div>
+                      <div class="form-group">
+                        <label for="uname">Nhập lại mật khẩu<span class="required">*</span></label>
+                        <input type="password" formControlName="re_password" class="form-control" id="rePassword"
+                          name="rePassword" placeholder="Nhập lại mật khẩu(*)">
+                        <div
+                          *ngIf="formControls?.re_password?.touched && formControls?.re_password?.invalid && formControls?.re_password?.errors?.required"
+                          class="alert alert-danger mt-1" role="alert">Vui lòng nhập lại mật khẩu.</div>
+                        <div
+                          *ngIf="formControls?.re_password?.touched && formControls?.re_password?.invalid && !formControls?.re_password?.errors?.required && formControls?.re_password?.errors?.NoPassswordMatch"
+                          class="alert alert-danger mt-1" role="alert">Mật khẩu nhập lại không trùng khớp.</div>
+                      </div>
+                      <div class="form-group">
+                        <label for="phone">Số điện thoại<span class="required">*</span></label>
+                        <input type="text" formControlName="phone_number" class="form-control" id="phone" name="phone"
+                          placeholder="Số điện thoại(*)">
+                        <div
+                          *ngIf="formControls?.phone_number?.touched && formControls?.phone_number?.invalid && formControls?.phone_number?.errors?.required"
+                          class="alert alert-danger mt-1" role="alert">Vui lòng nhập Số điện thoại.</div>
+                      </div>
+                      <div class="form-group">
+                        <label for="email">Email <span class="required">*</span></label>
+                        <input type="email" formControlName="email" class="form-control" id="email" name="email"
+                          placeholder="Email(*)" required="">
+                        <div
+                          *ngIf="formControls?.email?.touched && formControls?.email?.invalid && formControls?.email?.errors?.required"
+                          class="alert alert-danger mt-1" role="alert">Vui lòng nhập email.</div>
+                        <div
+                          *ngIf="formControls?.email?.touched && formControls?.email?.invalid && formControls?.email?.errors?.email"
+                          class="alert alert-danger mt-1" role="alert">Vui lòng nhập đúng định dạng email.</div>
+                      </div>
+                      <button type="submit" (click)="register()" class="btn btn-default btn-block btn-lg">Đăng
+                        ký</button>
+                    </form>
+                  </div>
+                  <div class="singup-bottom">
+                    <p class="pull-right">Đã có tài khoản? <a href="#" routerLink="/login" class="btn-link-primary">
+                        Đăng nhập</a></p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

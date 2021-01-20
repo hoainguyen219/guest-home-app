@@ -1,0 +1,20 @@
+<div class="content-area">
+  <div class="container-fluid">
+    <div class="row" style="display:flex; justify-content: center;">
+      <div class="col-lg-8 col-md-8 col-sm-12" *ngIf="apiLoaded$ | async as api">
+        <google-map [options]="options" [center]="center" width="100%" (mapClick)="searchByClick($event)">
+          <map-marker #marker="mapMarker" *ngFor="let mark of markers; let i = index"
+            [position]="{lat: mark.getPosition().lat(), lng: mark.getPosition().lng()}" [options]="markerOptions"
+            (mapClick)="toDetailHostel(mark.getZIndex())" (mapMouseover)="openInfoWindow(marker, mark.getTitle(), mark.getLabel())"
+            (mapMouseout)="closeInfoWindow($event)">
+            <map-info-window>
+              <h5>{{ markTitle }}</h5>
+              <p> {{ markAddress }}</p>
+            </map-info-window>
+          </map-marker>
+          <map-circle [center]="center" [options]="circleOptions" [radius]="radiusSize"></map-circle>
+        </google-map>
+      </div>
+    </div>
+  </div>
+</div>

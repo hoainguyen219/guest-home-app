@@ -1,0 +1,110 @@
+<div class="content-area">
+  <div class="container-fluid">
+    <div class="row">
+      <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12" *ngIf="schedule$ | async as schedules">
+        <div class="single-page-sidebar">
+          <div class="widget widget-contact box-bg">
+            <h3 class="widget-title">Lịch thuê phòng</h3>
+              <ng-container *ngFor="let schedule of schedules">
+                <div class="form-group">
+                  <label>Tiêu đề: {{ schedule?.title }} </label>
+                </div>
+                <div class="form-group">
+                  <label>Địa chỉ: {{ schedule?.address }}</label>
+                </div>
+                <div class="form-group">
+                  <label>Ngày đặt: {{ schedule?.fromDate | date: 'dd/MM/yyyy' }} - {{ schedule?.toDate | date:
+                    'dd/MM/yyyy' }}</label>
+                </div>
+                <div class="form-group">
+                  <label>Người đặt: {{ schedule?.fullName }} - {{ schedule.phoneNumber }} </label>
+                </div>
+                <hr>
+              </ng-container>
+          </div>
+        </div>
+      </div>
+      <div class="col-lg-8 col-md-8 col-sm-8 col-xs-12">
+        <div class="hostel-thumbnail-list-block" *ngFor="let hostel of displayHostels">
+          <div class="row align-items-stretch">
+            <!-- hostel-thumbnail-list-block -->
+            <div class="col-lg-3 col-md-12 col-sm-12 col-xs-12 nopadding">
+              <div class="hostel-list-img">
+                <a href="#"><img src="./assets/images/hostel-1.jpg" alt="accommodation booking websites design"></a>
+                <!-- <div class="hostel-wishlist"><a href="#" class="wishlist-heart"></a></div> -->
+              </div>
+            </div>
+            <div class="col-lg-9 col-md-12 col-sm-12 col-xs-12 nopadding d-flex">
+              <div class="hostel-content">
+                <div class="hostel-head">
+                  <h3 class="hostel-title"><a (click)="toDetailHostel(hostel.post_id)" class="title">{{hostel.title}}</a>
+                  </h3>
+                  <p class="hostel-address"> {{ hostel.address }}</p>
+                </div>
+                <div class="hostel-meta">
+                  <span class="hostel-price"><span class="price-from">Giá tiền: </span> <span class="price">
+                      {{ hostel.price | currency: 'VND': ''}} VND</span></span>
+                  <span class="hostel-area">Diện tích: <span class="price"> {{ hostel.area }}m2 </span></span>
+                  <span class="hostel-rating" *ngIf="hostel?.totalReview > 0; else noRating">
+                    Đánh giá: <span class=""> {{ hostel?.totalScore/hostel?.totalReview || 0 }}/5 </span> - <span
+                      class="reviews"> {{
+                      hostel.totalReview || 0 }} Đánh giá</span>
+                  </span>
+                  <ng-template #noRating>
+                    <span class="hostel-rating" *ngIf="hostel?.totalReview === 0">
+                      Chưa có đánh giá.
+                    </span>
+                  </ng-template>
+                </div>
+                <div class="btn-group justify-content-end mt-auto" style="color: #3a9ab5">
+                  <span class="remove-wishlist"><i class="fa fa-pencil" style="margin-right: 3px;"></i><a style="color: #3a9ab5" href="javascript:void(0)"
+                      (click)="toEditHostel(hostel)" >Sửa </a></span>
+                  <span class="remove-wishlist"><i class="fa fa-trash" style="margin-right: 3px;"></i><a style="color: #3a9ab5" href="javascript:void(0)"
+                      (click)="deleteHostels(hostel)" >Xóa </a></span>
+                </div>
+              </div>
+            </div>
+          </div>
+          <!-- /.hostel-thumbnail-list-block -->
+        </div>
+      </div>
+    </div>
+    <div class="row" style="text-align: center;" *ngIf="hostels?.length > 10">
+      <div class="col-lg-3">
+
+      </div>
+      <div class="col-lg-8">
+        <mat-paginator
+          [pageSize]="pageSize"
+          [length]="hostels.length"
+          (page)="changePages($event)"
+        ></mat-paginator>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<!-- modal xác nhận xóa dữ liệu -->
+
+<!-- Modal -->
+<div class="modal fade " id="modalDeleteHostel" tabindex="-1" role="dialog" aria-labelledby="modalDeleteHostelTitle"
+  aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered modal-sm" role="document">
+    <div class="modal-content">
+      <div class="modal-header d-flex" style="align-items: center;">
+        <h3 class="modal-title" id="modalDeleteHostelTitle">Xóa bài đăng</h3>
+        <button type="button" class="close" style="margin-left: auto;" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        Vui lòng xác nhận xóa bài đăng
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Hủy</button>
+        <button type="button" class="btn btn-primary" (click)="cfDelete()"> Xóa</button>
+      </div>
+    </div>
+  </div>
+</div>

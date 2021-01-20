@@ -1,0 +1,126 @@
+<div class="content-area">
+  <div class="container-fluid">
+    <div class="row">
+      <div class="col-lg-3 col-md-3 col-sm-4">
+
+
+      </div>
+      <div class="col-lg-8 col-md-8 col-sm-8 col-xs-12">
+        <div class="hostel-thumbnail-list-block" *ngFor="let hostel of displayHostels">
+          <div class="row align-items-stretch">
+            <!-- hostel-thumbnail-list-block -->
+            <div class="col-lg-3 col-md-4 col-sm-12 col-xs-12 nopadding">
+              <div class="hostel-list-img">
+                <a style="cursor: pointer;" (click)="toDetailHostel(hostel.postId)"><img
+                    src="./assets/images/hostel-1.jpg" alt="accommodation booking websites design"></a>
+                <!-- <div class="hostel-wishlist"><a href="#" class="wishlist-heart"></a></div> -->
+              </div>
+            </div>
+            <div class="col-lg-9 col-md-8 col-sm-12 col-xs-12 nopadding d-flex">
+              <div class="hostel-content">
+                <div class="hostel-head">
+                  <h3 class="hostel-title" style="cursor: pointer;"><a (click)="toDetailHostel(hostel.postId)"
+                      class="title">{{hostel?.title}}</a>
+                  </h3>
+                  <p class="hostel-address"> {{ hostel.address }}</p>
+                </div>
+                <div class="hostel-meta">
+                  <span class="hostel-rating" *ngIf="hostel?.reviews && hostel?.reviews[0]?.totalReview > 0; else noRating">
+                    Đánh giá khách sạn: <span class=""> {{ hostel?.htotalReview|| 0 }}/5 </span> - <span
+                      class="reviews"> {{ hostel?.reviews[0]?.totalReview || 0 }} Đánh giá</span>
+                  </span>
+                  <ng-template #noRating>
+                    <span class="hostel-rating" *ngIf="reviews?.totalReview === 0">
+                      Chưa có đánh giá.
+                    </span>
+                  </ng-template>
+                </div>
+                <div class="hostel-meta">
+                  <span class="hostel-rating" *ngIf="hostel?.reviews && hostel?.reviews[0]?.totalReview1 > 0; else noRating">
+                    Đánh giá quản lý: <span class=""> {{ hostel?.htotalReview1 || 0 }}/5 </span> - <span
+                      class="reviews"> {{ hostel?.reviews[0]?.totalReview1 || 0 }} Đánh giá</span>
+                  </span>
+                  <ng-template #noRating>
+                    <span class="hostel-rating" *ngIf="reviews?.totalReview1 === 0">
+                      Chưa có đánh giá.
+                    </span>
+                  </ng-template>
+                </div>
+                <div class="btn-group justify-content-end mt-auto">
+                  <a href="javascript:void(0)" (click)="openRatingForm(hostel)" class="btn btn-sm btn-nearme"> Đánh
+                    giá</a>
+                </div>
+              </div>
+            </div>
+          </div>
+          <!-- /.hostel-thumbnail-list-block -->
+        </div>
+      </div>
+    </div>
+    <div class="row" style="text-align: center;" *ngIf="hostels?.length > 10">
+      <div class="col-lg-3">
+
+      </div>
+      <div class="col-lg-8">
+        <mat-paginator
+          [pageSize]="pageSize"
+          [length]="hostels.length"
+          (page)="changePages($event)"
+        ></mat-paginator>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Modal đánh giá-->
+<div class="modal fade" id="modalRating" tabindex="-1" role="dialog" aria-labelledby="modalRatingTitle"
+  aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-header d-flex" style="align-items: center;">
+        <h3 class="modal-title" id="modalRatingTitle">Đánh giá phòng đặt</h3>
+        <button type="button" class="close" style="margin-left: auto;" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <h4 style="color: red;">{{ selectedHostel?.title }}</h4>
+        Địa chỉ: {{ selectedHostel?.address }}
+        <hr>
+        <p> Từ ngày - Đến ngày: {{ selectedHostel?.fromDate | date: 'dd/MM/yyyy' }} đến {{ selectedHostel?.toDate |
+          date:
+          'dd/MM/yyyy' }}</p>
+        <div class="row d-flex">
+          <div class="col-sm-4 d-flex align-self-center">
+            <p class="">Chất lượng nhà(*):</p>
+          </div>
+          <div class="col-sm-8">
+            <mat-slider class="w-100" min="0" max="5" [(value)]="hostelRating" tickInterval="1">
+            </mat-slider>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-sm-4"></div>
+          <div class="col-sm-8">
+            <div class="d-flex" style="justify-content: space-between;">
+              <span>0</span> <span>1</span> <span>2</span> <span>3</span> <span>4</span> <span>5</span>
+            </div>
+          </div>
+        </div>
+        <div class="row d-flex">
+          <div class="col-sm-4 d-flex align-self-center">
+            <p class="">Chất lượng chủ thuê(*):</p>
+          </div>
+          <div class="col-sm-8">
+            <mat-slider class="w-100" min="0" max="5" [(value)]="userRating" tickInterval="1"></mat-slider>
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Hủy</button>
+        <button type="button" class="btn btn-primary" (click)="rating(this.selectedHostel)">Đánh
+          giá</button>
+      </div>
+    </div>
+  </div>
+</div>
